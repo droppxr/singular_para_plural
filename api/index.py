@@ -20,12 +20,12 @@ def singular_para_plural(singular):
     dict = {'singular': '',
             'plural': ''}
     # Terminadas em ÃO
-    if singular[-2:].lower() == 'ão':
+    if singular[-2:] == 'ão':
         plural = singular[0:-2:] + 'ões'
         dict['plural'] = plural
 
     # Terminadas em A, E, I, O, U
-    if singular[-1] in "aeiou":
+    elif singular[-1] in "aeiou":
         plural = singular + 's'
         dict = {'singular': singular,
                 'plural': plural}
