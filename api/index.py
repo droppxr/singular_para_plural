@@ -2,6 +2,8 @@ from flask import Flask, jsonify, url_for
 
 app = Flask(__name__)
 
+app.json.ensure_ascii = False
+
 @app.route('/')
 def home():
     url = url_for('api', _external=True)
@@ -18,7 +20,9 @@ def singular_para_plural(singular):
     dict = {'singular': '',
             'plural': ''}
     # Terminadas em ÃO
-
+    if singular[-2:].lower() == 'ão':
+        plural = singular[0:-2:] + 'ões'
+        dict['plural'] = plural
 
     # Terminadas em A, E, I, O, U
     if singular[-1] in "aeiou":
@@ -28,7 +32,6 @@ def singular_para_plural(singular):
         
     # Terminadas em X
     elif singular[-1] == 'x':
-        dict['singular'] = singular
         dict['plural'] = singular
     
     # Terminadas em R, Z
@@ -44,6 +47,8 @@ def singular_para_plural(singular):
     # Se for terminar de qualquer outra forma
     else:
         return (f'ERRO: Não conseguimos converter a palavra "{singular}" para plural')
+
+    dict['singular'] = singular
     return jsonify (dict)
 
 if __name__ == '__main__':
